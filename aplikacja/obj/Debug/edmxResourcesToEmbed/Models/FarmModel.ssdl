@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FarmDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Farmer" Type="int" Nullable="false" />
+    <Property Name="Nr_Animal" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Sex" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Breed" Type="varchar" MaxLength="50" />
+    <Property Name="Born" Type="date" Nullable="false" />
+    <Property Name="Nr_mother" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Animal_History">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Animal" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cultivation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Field" Type="int" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="What" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Farmer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_User" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Farm_Nr" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Field">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Id_Farmer" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Field_History">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Field" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Farmer" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Date_prod" Type="date" />
+    <Property Name="Date_buy" Type="date" />
+  </EntityType>
+  <EntityType Name="Resource">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_Farmer" Type="int" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Count" Type="float" Nullable="false" />
+    <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Work">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_person" Type="int" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" />
+    <Property Name="Date" Type="date" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Animal_Farmer">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Id_Farmer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cultivation_Field">
+    <End Role="Field" Type="Self.Field" Multiplicity="1" />
+    <End Role="Cultivation" Type="Self.Cultivation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Field">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cultivation">
+        <PropertyRef Name="Id_Field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Farmer_User">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Farmer">
+        <PropertyRef Name="Id_User" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Field_Farmer">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="Field" Type="Self.Field" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Field">
+        <PropertyRef Name="Id_Farmer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Animal">
+    <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+    <End Role="Animal_History" Type="Self.Animal_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Animal_History">
+        <PropertyRef Name="Id_Animal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_History_Field">
+    <End Role="Field" Type="Self.Field" Multiplicity="1" />
+    <End Role="Field_History" Type="Self.Field_History" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Field">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Field_History">
+        <PropertyRef Name="Id_Field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Machine_Farmer">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Machine">
+        <PropertyRef Name="Id_Farmer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Resource_Farmer">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Resource">
+        <PropertyRef Name="Id_Farmer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Work_Farmer">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="Work" Type="Self.Work" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Work">
+        <PropertyRef Name="Id_person" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FarmDataModelStoreContainer">
+    <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Animal_History" EntityType="Self.Animal_History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cultivation" EntityType="Self.Cultivation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Farmer" EntityType="Self.Farmer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Field" EntityType="Self.Field" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Field_History" EntityType="Self.Field_History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Animal_Farmer" Association="Self.FK_Animal_Farmer">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="Animal" EntitySet="Animal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cultivation_Field" Association="Self.FK_Cultivation_Field">
+      <End Role="Field" EntitySet="Field" />
+      <End Role="Cultivation" EntitySet="Cultivation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Farmer_User" Association="Self.FK_Farmer_User">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Farmer" EntitySet="Farmer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Field_Farmer" Association="Self.FK_Field_Farmer">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="Field" EntitySet="Field" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Animal" Association="Self.FK_History_Animal">
+      <End Role="Animal" EntitySet="Animal" />
+      <End Role="Animal_History" EntitySet="Animal_History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_History_Field" Association="Self.FK_History_Field">
+      <End Role="Field" EntitySet="Field" />
+      <End Role="Field_History" EntitySet="Field_History" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Machine_Farmer" Association="Self.FK_Machine_Farmer">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="Machine" EntitySet="Machine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Resource_Farmer" Association="Self.FK_Resource_Farmer">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="Resource" EntitySet="Resource" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Work_Farmer" Association="Self.FK_Work_Farmer">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="Work" EntitySet="Work" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

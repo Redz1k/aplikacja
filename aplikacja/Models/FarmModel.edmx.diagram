@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="494c5eb42f99473e9613222bc6da9c48" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="FarmDataModel.Animal" Width="1.5" PointX="5.875" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Animal_History" Width="1.5" PointX="8.375" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.AspNetUser" Width="1.5" PointX="1.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Cultivation" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Farmer" Width="1.5" PointX="3.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Field" Width="1.5" PointX="8.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Field_History" Width="1.5" PointX="10.375" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Machine" Width="1.5" PointX="1.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Resource" Width="1.5" PointX="3.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Work" Width="1.5" PointX="6.375" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="FarmDataModel.FK_Animal_Farmer" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_History_Animal" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Farmer_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Cultivation_Field" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Field_Farmer" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Machine_Farmer" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Resource_Farmer" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_Work_Farmer" ManuallyRouted="false" />
+        <AssociationConnector Association="FarmDataModel.FK_History_Field" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
