@@ -24,6 +24,7 @@ namespace aplikacja.Models
         public int Id { get; set; }
         public string Type { get; set; }
         public int Id_Farmer { get; set; }
+        public double Area { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cultivation> Cultivations { get; set; }

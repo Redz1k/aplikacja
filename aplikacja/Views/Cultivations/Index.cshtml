@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.State)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.What)
+            @Html.DisplayNameFor(model => model.Field.Type)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Field.Type)
+            @Html.DisplayNameFor(model => model.Seed.Name)
         </th>
         <th></th>
     </tr>
@@ -29,10 +29,10 @@
             @Html.DisplayFor(modelItem => item.State)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.What)
+            @Html.DisplayFor(modelItem => item.Field.Type)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Field.Type)
+            @Html.DisplayFor(modelItem => item.Seed.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

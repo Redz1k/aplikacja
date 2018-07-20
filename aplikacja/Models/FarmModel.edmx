@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FarmDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FarmDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Animal">
           <Key>
             <PropertyRef Name="Id" />
@@ -15,9 +15,17 @@
           <Property Name="Sex" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Breed" Type="varchar" MaxLength="50" />
+          <Property Name="Id_Breed" Type="int" />
           <Property Name="Born" Type="date" Nullable="false" />
           <Property Name="Nr_mother" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Animal_Breed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Animal_History">
           <Key>
@@ -53,7 +61,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Field" Type="int" Nullable="false" />
           <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="What" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Seed" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Farmer">
           <Key>
@@ -72,6 +80,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id_Farmer" Type="int" Nullable="false" />
+          <Property Name="Area" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Field_History">
           <Key>
@@ -105,6 +114,13 @@
           <Property Name="Count" Type="float" Nullable="false" />
           <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Work">
           <Key>
             <PropertyRef Name="Id" />
@@ -115,6 +131,18 @@
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="Date" Type="date" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Animal_Breed">
+          <End Role="Animal_Breed" Type="Self.Animal_Breed" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal_Breed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Id_Breed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Animal_Farmer">
           <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
           <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
@@ -136,6 +164,18 @@
             </Principal>
             <Dependent Role="Cultivation">
               <PropertyRef Name="Id_Field" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cultivation_Seed">
+          <End Role="Seed" Type="Self.Seed" Multiplicity="1" />
+          <End Role="Cultivation" Type="Self.Cultivation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cultivation">
+              <PropertyRef Name="Id_Seed" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -225,6 +265,7 @@
         </Association>
         <EntityContainer Name="FarmDataModelStoreContainer">
           <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Animal_Breed" EntityType="Self.Animal_Breed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Animal_History" EntityType="Self.Animal_History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cultivation" EntityType="Self.Cultivation" Schema="dbo" store:Type="Tables" />
@@ -233,13 +274,22 @@
           <EntitySet Name="Field_History" EntityType="Self.Field_History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seed" EntityType="Self.Seed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Animal_Breed" Association="Self.FK_Animal_Breed">
+            <End Role="Animal_Breed" EntitySet="Animal_Breed" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
           <AssociationSet Name="FK_Animal_Farmer" Association="Self.FK_Animal_Farmer">
             <End Role="Farmer" EntitySet="Farmer" />
             <End Role="Animal" EntitySet="Animal" />
           </AssociationSet>
           <AssociationSet Name="FK_Cultivation_Field" Association="Self.FK_Cultivation_Field">
             <End Role="Field" EntitySet="Field" />
+            <End Role="Cultivation" EntitySet="Cultivation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cultivation_Seed" Association="Self.FK_Cultivation_Seed">
+            <End Role="Seed" EntitySet="Seed" />
             <End Role="Cultivation" EntitySet="Cultivation" />
           </AssociationSet>
           <AssociationSet Name="FK_Farmer_User" Association="Self.FK_Farmer_User">
@@ -271,8 +321,7 @@
             <End Role="Work" EntitySet="Work" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FarmDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -286,11 +335,12 @@
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Breed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Born" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Nr_mother" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Farmer" Relationship="Self.FK_Animal_Farmer" FromRole="Animal" ToRole="Farmer" />
           <NavigationProperty Name="Animal_History" Relationship="Self.FK_History_Animal" FromRole="Animal" ToRole="Animal_History" />
+          <Property Name="Id_Breed" Type="Int32" />
+          <NavigationProperty Name="Animal_Breed" Relationship="FarmDataModel.FK_Animal_Breed" FromRole="Animal" ToRole="Animal_Breed" />
         </EntityType>
         <EntityType Name="Animal_History">
           <Key>
@@ -328,8 +378,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Field" Type="Int32" Nullable="false" />
           <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="What" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Field" Relationship="Self.FK_Cultivation_Field" FromRole="Cultivation" ToRole="Field" />
+          <Property Name="Id_Seed" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Seed" Relationship="FarmDataModel.FK_Cultivation_Seed" FromRole="Cultivation" ToRole="Seed" />
         </EntityType>
         <EntityType Name="Farmer">
           <Key>
@@ -357,6 +408,7 @@
           <NavigationProperty Name="Cultivations" Relationship="Self.FK_Cultivation_Field" FromRole="Field" ToRole="Cultivation" />
           <NavigationProperty Name="Farmer" Relationship="Self.FK_Field_Farmer" FromRole="Field" ToRole="Farmer" />
           <NavigationProperty Name="Field_History" Relationship="Self.FK_History_Field" FromRole="Field" ToRole="Field_History" />
+          <Property Name="Area" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="Field_History">
           <Key>
@@ -559,7 +611,58 @@
             <End Role="Field" EntitySet="Fields" />
             <End Role="Field_History" EntitySet="Field_History" />
           </AssociationSet>
+          <EntitySet Name="Animal_Breed" EntityType="FarmDataModel.Animal_Breed" />
+          <EntitySet Name="Seeds" EntityType="FarmDataModel.Seed" />
+          <AssociationSet Name="FK_Animal_Breed" Association="FarmDataModel.FK_Animal_Breed">
+            <End Role="Animal_Breed" EntitySet="Animal_Breed" />
+            <End Role="Animal" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cultivation_Seed" Association="FarmDataModel.FK_Cultivation_Seed">
+            <End Role="Seed" EntitySet="Seeds" />
+            <End Role="Cultivation" EntitySet="Cultivations" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Animal_Breed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Animals" Relationship="FarmDataModel.FK_Animal_Breed" FromRole="Animal_Breed" ToRole="Animal" />
+        </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cultivations" Relationship="FarmDataModel.FK_Cultivation_Seed" FromRole="Seed" ToRole="Cultivation" />
+        </EntityType>
+        <Association Name="FK_Animal_Breed">
+          <End Type="FarmDataModel.Animal_Breed" Role="Animal_Breed" Multiplicity="0..1" />
+          <End Type="FarmDataModel.Animal" Role="Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal_Breed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Id_Breed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cultivation_Seed">
+          <End Type="FarmDataModel.Seed" Role="Seed" Multiplicity="1" />
+          <End Type="FarmDataModel.Cultivation" Role="Cultivation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seed">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cultivation">
+              <PropertyRef Name="Id_Seed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -569,13 +672,13 @@
           <EntitySetMapping Name="Animals">
             <EntityTypeMapping TypeName="FarmDataModel.Animal">
               <MappingFragment StoreEntitySet="Animal">
+                <ScalarProperty Name="Id_Breed" ColumnName="Id_Breed" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Id_Farmer" ColumnName="Id_Farmer" />
                 <ScalarProperty Name="Nr_Animal" ColumnName="Nr_Animal" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Breed" ColumnName="Breed" />
                 <ScalarProperty Name="Born" ColumnName="Born" />
                 <ScalarProperty Name="Nr_mother" ColumnName="Nr_mother" />
               </MappingFragment>
@@ -613,10 +716,10 @@
           <EntitySetMapping Name="Cultivations">
             <EntityTypeMapping TypeName="FarmDataModel.Cultivation">
               <MappingFragment StoreEntitySet="Cultivation">
+                <ScalarProperty Name="Id_Seed" ColumnName="Id_Seed" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Id_Field" ColumnName="Id_Field" />
                 <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="What" ColumnName="What" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -634,6 +737,7 @@
           <EntitySetMapping Name="Fields">
             <EntityTypeMapping TypeName="FarmDataModel.Field">
               <MappingFragment StoreEntitySet="Field">
+                <ScalarProperty Name="Area" ColumnName="Area" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id_Farmer" ColumnName="Id_Farmer" />
@@ -683,6 +787,23 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Animal_Breed">
+            <EntityTypeMapping TypeName="FarmDataModel.Animal_Breed">
+              <MappingFragment StoreEntitySet="Animal_Breed">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seeds">
+            <EntityTypeMapping TypeName="FarmDataModel.Seed">
+              <MappingFragment StoreEntitySet="Seed">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

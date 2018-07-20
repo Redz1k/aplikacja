@@ -10,18 +10,16 @@ using aplikacja.Models;
 
 namespace aplikacja.Controllers
 {
-    [RequireHttps]
     [Authorize]
+    [RequireHttps]
     public class AnimalsController : Controller
     {
-       
         private farmEntities db = new farmEntities();
 
         // GET: Animals
         public ActionResult Index()
         {
-           
-            var animals = db.Animals.Include(a => a.Farmer);
+            var animals = db.Animals.Include(a => a.Farmer).Include(a => a.Animal_Breed);
             return View(animals.ToList());
         }
 
@@ -44,6 +42,7 @@ namespace aplikacja.Controllers
         public ActionResult Create()
         {
             ViewBag.Id_Farmer = new SelectList(db.Farmers, "Id", "Id_User");
+            ViewBag.Id_Breed = new SelectList(db.Animal_Breed, "Id", "ShortName");
             return View();
         }
 
@@ -52,7 +51,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Id_Farmer,Nr_Animal,Sex,Name,Type,Breed,Born,Nr_mother")] Animal animal)
+        public ActionResult Create([Bind(Include = "Id,Id_Farmer,Nr_Animal,Sex,Name,Type,Born,Nr_mother,Id_Breed")] Animal animal)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +61,7 @@ namespace aplikacja.Controllers
             }
 
             ViewBag.Id_Farmer = new SelectList(db.Farmers, "Id", "Id_User", animal.Id_Farmer);
+            ViewBag.Id_Breed = new SelectList(db.Animal_Breed, "Id", "ShortName", animal.Id_Breed);
             return View(animal);
         }
 
@@ -78,6 +78,7 @@ namespace aplikacja.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id_Farmer = new SelectList(db.Farmers, "Id", "Id_User", animal.Id_Farmer);
+            ViewBag.Id_Breed = new SelectList(db.Animal_Breed, "Id", "ShortName", animal.Id_Breed);
             return View(animal);
         }
 
@@ -86,7 +87,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Id_Farmer,Nr_Animal,Sex,Name,Type,Breed,Born,Nr_mother")] Animal animal)
+        public ActionResult Edit([Bind(Include = "Id,Id_Farmer,Nr_Animal,Sex,Name,Type,Born,Nr_mother,Id_Breed")] Animal animal)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +96,7 @@ namespace aplikacja.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Id_Farmer = new SelectList(db.Farmers, "Id", "Id_User", animal.Id_Farmer);
+            ViewBag.Id_Breed = new SelectList(db.Animal_Breed, "Id", "ShortName", animal.Id_Breed);
             return View(animal);
         }
 

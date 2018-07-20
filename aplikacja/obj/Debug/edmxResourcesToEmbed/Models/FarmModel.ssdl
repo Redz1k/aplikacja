@@ -10,9 +10,17 @@
     <Property Name="Sex" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" />
     <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Breed" Type="varchar" MaxLength="50" />
+    <Property Name="Id_Breed" Type="int" />
     <Property Name="Born" Type="date" Nullable="false" />
     <Property Name="Nr_mother" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Animal_Breed">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShortName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Animal_History">
     <Key>
@@ -48,7 +56,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Id_Field" Type="int" Nullable="false" />
     <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="What" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Id_Seed" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Farmer">
     <Key>
@@ -67,6 +75,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Id_Farmer" Type="int" Nullable="false" />
+    <Property Name="Area" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Field_History">
     <Key>
@@ -100,6 +109,13 @@
     <Property Name="Count" Type="float" Nullable="false" />
     <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="Seed">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Work">
     <Key>
       <PropertyRef Name="Id" />
@@ -110,6 +126,18 @@
     <Property Name="Description" Type="varchar" MaxLength="50" />
     <Property Name="Date" Type="date" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Animal_Breed">
+    <End Role="Animal_Breed" Type="Self.Animal_Breed" Multiplicity="0..1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal_Breed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Id_Breed" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Animal_Farmer">
     <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
     <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
@@ -131,6 +159,18 @@
       </Principal>
       <Dependent Role="Cultivation">
         <PropertyRef Name="Id_Field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cultivation_Seed">
+    <End Role="Seed" Type="Self.Seed" Multiplicity="1" />
+    <End Role="Cultivation" Type="Self.Cultivation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cultivation">
+        <PropertyRef Name="Id_Seed" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -220,6 +260,7 @@
   </Association>
   <EntityContainer Name="FarmDataModelStoreContainer">
     <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Animal_Breed" EntityType="Self.Animal_Breed" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Animal_History" EntityType="Self.Animal_History" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cultivation" EntityType="Self.Cultivation" Schema="dbo" store:Type="Tables" />
@@ -228,13 +269,22 @@
     <EntitySet Name="Field_History" EntityType="Self.Field_History" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seed" EntityType="Self.Seed" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Animal_Breed" Association="Self.FK_Animal_Breed">
+      <End Role="Animal_Breed" EntitySet="Animal_Breed" />
+      <End Role="Animal" EntitySet="Animal" />
+    </AssociationSet>
     <AssociationSet Name="FK_Animal_Farmer" Association="Self.FK_Animal_Farmer">
       <End Role="Farmer" EntitySet="Farmer" />
       <End Role="Animal" EntitySet="Animal" />
     </AssociationSet>
     <AssociationSet Name="FK_Cultivation_Field" Association="Self.FK_Cultivation_Field">
       <End Role="Field" EntitySet="Field" />
+      <End Role="Cultivation" EntitySet="Cultivation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cultivation_Seed" Association="Self.FK_Cultivation_Seed">
+      <End Role="Seed" EntitySet="Seed" />
       <End Role="Cultivation" EntitySet="Cultivation" />
     </AssociationSet>
     <AssociationSet Name="FK_Farmer_User" Association="Self.FK_Farmer_User">

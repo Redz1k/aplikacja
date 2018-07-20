@@ -4,13 +4,13 @@
     <EntitySetMapping Name="Animals">
       <EntityTypeMapping TypeName="FarmDataModel.Animal">
         <MappingFragment StoreEntitySet="Animal">
+          <ScalarProperty Name="Id_Breed" ColumnName="Id_Breed" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Id_Farmer" ColumnName="Id_Farmer" />
           <ScalarProperty Name="Nr_Animal" ColumnName="Nr_Animal" />
           <ScalarProperty Name="Sex" ColumnName="Sex" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Breed" ColumnName="Breed" />
           <ScalarProperty Name="Born" ColumnName="Born" />
           <ScalarProperty Name="Nr_mother" ColumnName="Nr_mother" />
         </MappingFragment>
@@ -48,10 +48,10 @@
     <EntitySetMapping Name="Cultivations">
       <EntityTypeMapping TypeName="FarmDataModel.Cultivation">
         <MappingFragment StoreEntitySet="Cultivation">
+          <ScalarProperty Name="Id_Seed" ColumnName="Id_Seed" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Id_Field" ColumnName="Id_Field" />
           <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="What" ColumnName="What" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -69,6 +69,7 @@
     <EntitySetMapping Name="Fields">
       <EntityTypeMapping TypeName="FarmDataModel.Field">
         <MappingFragment StoreEntitySet="Field">
+          <ScalarProperty Name="Area" ColumnName="Area" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Id_Farmer" ColumnName="Id_Farmer" />
@@ -118,6 +119,23 @@
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Animal_Breed">
+      <EntityTypeMapping TypeName="FarmDataModel.Animal_Breed">
+        <MappingFragment StoreEntitySet="Animal_Breed">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Seeds">
+      <EntityTypeMapping TypeName="FarmDataModel.Seed">
+        <MappingFragment StoreEntitySet="Seed">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

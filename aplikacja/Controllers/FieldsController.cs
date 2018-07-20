@@ -10,8 +10,6 @@ using aplikacja.Models;
 
 namespace aplikacja.Controllers
 {
-    [Authorize]
-    [RequireHttps]
     public class FieldsController : Controller
     {
         private farmEntities db = new farmEntities();
@@ -50,7 +48,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Type,Id_Farmer")] Field field)
+        public ActionResult Create([Bind(Include = "Id,Type,Id_Farmer,Area")] Field field)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +82,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Type,Id_Farmer")] Field field)
+        public ActionResult Edit([Bind(Include = "Id,Type,Id_Farmer,Area")] Field field)
         {
             if (ModelState.IsValid)
             {

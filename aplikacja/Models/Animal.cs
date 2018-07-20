@@ -26,13 +26,13 @@ namespace aplikacja.Models
         public string Sex { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public string Breed { get; set; }
         public System.DateTime Born { get; set; }
         public string Nr_mother { get; set; }
-        
-
+        public Nullable<int> Id_Breed { get; set; }
+    
         public virtual Farmer Farmer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Animal_History> Animal_History { get; set; }
+        public virtual Animal_Breed Animal_Breed { get; set; }
     }
 }

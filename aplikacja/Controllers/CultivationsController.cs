@@ -14,13 +14,12 @@ namespace aplikacja.Controllers
     [RequireHttps]
     public class CultivationsController : Controller
     {
-
         private farmEntities db = new farmEntities();
 
         // GET: Cultivations
         public ActionResult Index()
         {
-            var cultivations = db.Cultivations.Include(c => c.Field);
+            var cultivations = db.Cultivations.Include(c => c.Field).Include(c => c.Seed);
             return View(cultivations.ToList());
         }
 
@@ -43,6 +42,7 @@ namespace aplikacja.Controllers
         public ActionResult Create()
         {
             ViewBag.Id_Field = new SelectList(db.Fields, "Id", "Type");
+            ViewBag.Id_Seed = new SelectList(db.Seeds, "Id", "Name");
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Id_Field,State,What")] Cultivation cultivation)
+        public ActionResult Create([Bind(Include = "Id,Id_Field,State,Id_Seed")] Cultivation cultivation)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +61,7 @@ namespace aplikacja.Controllers
             }
 
             ViewBag.Id_Field = new SelectList(db.Fields, "Id", "Type", cultivation.Id_Field);
+            ViewBag.Id_Seed = new SelectList(db.Seeds, "Id", "Name", cultivation.Id_Seed);
             return View(cultivation);
         }
 
@@ -77,6 +78,7 @@ namespace aplikacja.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id_Field = new SelectList(db.Fields, "Id", "Type", cultivation.Id_Field);
+            ViewBag.Id_Seed = new SelectList(db.Seeds, "Id", "Name", cultivation.Id_Seed);
             return View(cultivation);
         }
 
@@ -85,7 +87,7 @@ namespace aplikacja.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Id_Field,State,What")] Cultivation cultivation)
+        public ActionResult Edit([Bind(Include = "Id,Id_Field,State,Id_Seed")] Cultivation cultivation)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +96,7 @@ namespace aplikacja.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Id_Field = new SelectList(db.Fields, "Id", "Type", cultivation.Id_Field);
+            ViewBag.Id_Seed = new SelectList(db.Seeds, "Id", "Name", cultivation.Id_Seed);
             return View(cultivation);
         }
 

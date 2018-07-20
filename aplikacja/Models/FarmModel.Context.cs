@@ -35,5 +35,7 @@ namespace aplikacja.Models
         public virtual DbSet<Machine> Machines { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<Work> Works { get; set; }
+        public virtual DbSet<Animal_Breed> Animal_Breed { get; set; }
+        public virtual DbSet<Seed> Seeds { get; set; }
     }
 }

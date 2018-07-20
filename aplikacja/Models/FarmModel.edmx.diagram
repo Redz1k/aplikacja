@@ -13,8 +13,8 @@
         <EntityTypeShape EntityType="FarmDataModel.Field" Width="1.5" PointX="8.5" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FarmDataModel.Field_History" Width="1.5" PointX="10.375" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="FarmDataModel.Machine" Width="1.5" PointX="1.25" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FarmDataModel.Resource" Width="1.5" PointX="3.25" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FarmDataModel.Work" Width="1.5" PointX="6.375" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Resource" Width="1.5" PointX="3.375" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FarmDataModel.Work" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
         <AssociationConnector Association="FarmDataModel.FK_Animal_Farmer" ManuallyRouted="false" />
         <AssociationConnector Association="FarmDataModel.FK_History_Animal" ManuallyRouted="false" />
         <AssociationConnector Association="FarmDataModel.FK_Farmer_User" ManuallyRouted="false" />
@@ -24,6 +24,10 @@
         <AssociationConnector Association="FarmDataModel.FK_Resource_Farmer" ManuallyRouted="false" />
         <AssociationConnector Association="FarmDataModel.FK_Work_Farmer" ManuallyRouted="false" />
         <AssociationConnector Association="FarmDataModel.FK_History_Field" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FarmDataModel.Animal_Breed" Width="1.5" PointX="5.75" PointY="7.125" />
+        <EntityTypeShape EntityType="FarmDataModel.Seed" Width="1.5" PointX="10.5" PointY="2.5" />
+        <AssociationConnector Association="FarmDataModel.FK_Animal_Breed" />
+        <AssociationConnector Association="FarmDataModel.FK_Cultivation_Seed" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

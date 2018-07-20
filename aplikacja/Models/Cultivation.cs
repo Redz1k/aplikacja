@@ -17,8 +17,9 @@ namespace aplikacja.Models
         public int Id { get; set; }
         public int Id_Field { get; set; }
         public string State { get; set; }
-        public string What { get; set; }
+        public int Id_Seed { get; set; }
     
         public virtual Field Field { get; set; }
+        public virtual Seed Seed { get; set; }
     }
 }

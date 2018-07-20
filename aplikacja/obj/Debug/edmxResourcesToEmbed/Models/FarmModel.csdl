@@ -10,11 +10,12 @@
     <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Breed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Born" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Nr_mother" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Farmer" Relationship="Self.FK_Animal_Farmer" FromRole="Animal" ToRole="Farmer" />
     <NavigationProperty Name="Animal_History" Relationship="Self.FK_History_Animal" FromRole="Animal" ToRole="Animal_History" />
+    <Property Name="Id_Breed" Type="Int32" />
+    <NavigationProperty Name="Animal_Breed" Relationship="FarmDataModel.FK_Animal_Breed" FromRole="Animal" ToRole="Animal_Breed" />
   </EntityType>
   <EntityType Name="Animal_History">
     <Key>
@@ -52,8 +53,9 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Id_Field" Type="Int32" Nullable="false" />
     <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="What" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Field" Relationship="Self.FK_Cultivation_Field" FromRole="Cultivation" ToRole="Field" />
+    <Property Name="Id_Seed" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Seed" Relationship="FarmDataModel.FK_Cultivation_Seed" FromRole="Cultivation" ToRole="Seed" />
   </EntityType>
   <EntityType Name="Farmer">
     <Key>
@@ -81,6 +83,7 @@
     <NavigationProperty Name="Cultivations" Relationship="Self.FK_Cultivation_Field" FromRole="Field" ToRole="Cultivation" />
     <NavigationProperty Name="Farmer" Relationship="Self.FK_Field_Farmer" FromRole="Field" ToRole="Farmer" />
     <NavigationProperty Name="Field_History" Relationship="Self.FK_History_Field" FromRole="Field" ToRole="Field_History" />
+    <Property Name="Area" Type="Double" Nullable="false" />
   </EntityType>
   <EntityType Name="Field_History">
     <Key>
@@ -283,5 +286,56 @@
       <End Role="Field" EntitySet="Fields" />
       <End Role="Field_History" EntitySet="Field_History" />
     </AssociationSet>
+    <EntitySet Name="Animal_Breed" EntityType="FarmDataModel.Animal_Breed" />
+    <EntitySet Name="Seeds" EntityType="FarmDataModel.Seed" />
+    <AssociationSet Name="FK_Animal_Breed" Association="FarmDataModel.FK_Animal_Breed">
+      <End Role="Animal_Breed" EntitySet="Animal_Breed" />
+      <End Role="Animal" EntitySet="Animals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cultivation_Seed" Association="FarmDataModel.FK_Cultivation_Seed">
+      <End Role="Seed" EntitySet="Seeds" />
+      <End Role="Cultivation" EntitySet="Cultivations" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Animal_Breed">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="ShortName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Animals" Relationship="FarmDataModel.FK_Animal_Breed" FromRole="Animal_Breed" ToRole="Animal" />
+  </EntityType>
+  <EntityType Name="Seed">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Cultivations" Relationship="FarmDataModel.FK_Cultivation_Seed" FromRole="Seed" ToRole="Cultivation" />
+  </EntityType>
+  <Association Name="FK_Animal_Breed">
+    <End Type="FarmDataModel.Animal_Breed" Role="Animal_Breed" Multiplicity="0..1" />
+    <End Type="FarmDataModel.Animal" Role="Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal_Breed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Id_Breed" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cultivation_Seed">
+    <End Type="FarmDataModel.Seed" Role="Seed" Multiplicity="1" />
+    <End Type="FarmDataModel.Cultivation" Role="Cultivation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cultivation">
+        <PropertyRef Name="Id_Seed" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -24,9 +24,6 @@
             @Html.DisplayNameFor(model => model.Type)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Breed)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Born)
         </th>
         <th>
@@ -34,6 +31,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Farmer.Id_User)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Animal_Breed.ShortName)
         </th>
         <th></th>
     </tr>
@@ -53,9 +53,6 @@
             @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Breed)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Born)
         </td>
         <td>
@@ -63,6 +60,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Farmer.Id_User)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Animal_Breed.ShortName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
